@@ -12,7 +12,7 @@
     --bg:#08070c;
     --bg-panel:#120e1a;
     --bg-panel-2:#1a1424;
-    --magenta:#ff2ea6;
+    --magenta:#ffd400;
     --cyan:#29ffe0;
     --acid:#d4ff3d;
     --amber:#ff8a3d;
@@ -199,12 +199,12 @@
     position:absolute; width:340px; height:340px; border:1px solid rgba(41,255,224,0.25); border-radius:50%;
     animation:spin 26s linear infinite;
   }
-  .ape-ring.r2{width:420px;height:420px;border-color:rgba(255,46,166,0.18);animation-duration:34s;animation-direction:reverse;}
+  .ape-ring.r2{width:420px;height:420px;border-color:rgba(255,212,0,0.18);animation-duration:34s;animation-direction:reverse;}
   @keyframes spin{from{transform:rotate(0deg);}to{transform:rotate(360deg);}}
   .ape-img{
     position:relative; z-index:2;
     width:300px; height:300px; object-fit:contain;
-    filter:drop-shadow(0 0 22px rgba(41,255,224,0.35)) drop-shadow(0 0 40px rgba(255,46,166,0.25));
+    filter:drop-shadow(0 0 22px rgba(41,255,224,0.35)) drop-shadow(0 0 40px rgba(255,212,0,0.25));
     animation:float 5s ease-in-out infinite;
   }
   @keyframes float{0%,100%{transform:translateY(0);}50%{transform:translateY(-14px);}}
@@ -290,7 +290,7 @@
     position:absolute; left:11px; top:2px; width:17px; height:17px; border-radius:50%;
     background:var(--bg); border:2px solid var(--cyan); box-shadow:0 0 14px rgba(41,255,224,0.5);
   }
-  .tl-item:nth-child(2) .tl-dot{border-color:var(--magenta); box-shadow:0 0 14px rgba(255,46,166,0.5);}
+  .tl-item:nth-child(2) .tl-dot{border-color:var(--magenta); box-shadow:0 0 14px rgba(255,212,0,0.5);}
   .tl-item:nth-child(3) .tl-dot{border-color:var(--acid); box-shadow:0 0 14px rgba(212,255,61,0.5);}
   .tl-item:nth-child(4) .tl-dot{border-color:var(--amber); box-shadow:0 0 14px rgba(255,138,61,0.5);}
   .tl-item .gen{font-family:var(--font-display); font-size:12px; letter-spacing:0.14em; color:var(--text-dim); text-transform:uppercase;}
@@ -441,23 +441,13 @@
     <div class="barbox">
       <div class="barrow">
         <div class="barlabel">Liquidity Pool</div>
-        <div class="bartrack"><div class="barfill" style="width:50%; background:var(--cyan);"></div></div>
-        <div class="barpct">50%</div>
-      </div>
-      <div class="barrow">
-        <div class="barlabel">Troop Airdrop</div>
-        <div class="bartrack"><div class="barfill" style="width:25%; background:var(--magenta);"></div></div>
-        <div class="barpct">25%</div>
-      </div>
-      <div class="barrow">
-        <div class="barlabel">Ecosystem &amp; CEX</div>
-        <div class="bartrack"><div class="barfill" style="width:15%; background:var(--acid);"></div></div>
-        <div class="barpct">15%</div>
+        <div class="bartrack"><div class="barfill" style="width:98%; background:var(--cyan);"></div></div>
+        <div class="barpct">98%</div>
       </div>
       <div class="barrow">
         <div class="barlabel">Team (12mo Vesting)</div>
-        <div class="bartrack"><div class="barfill" style="width:10%; background:var(--amber);"></div></div>
-        <div class="barpct">10%</div>
+        <div class="bartrack"><div class="barfill" style="width:2%; background:var(--amber);"></div></div>
+        <div class="barpct">2%</div>
       </div>
     </div>
   </div>
