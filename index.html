@@ -1,0 +1,581 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>$CAPE — RISE OF THE APES // Robinhood Chain</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=JetBrains+Mono:wght@400;500;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#08070c;
+    --bg-panel:#120e1a;
+    --bg-panel-2:#1a1424;
+    --magenta:#ff2ea6;
+    --cyan:#29ffe0;
+    --acid:#d4ff3d;
+    --amber:#ff8a3d;
+    --text:#e8e3f0;
+    --text-dim:#8b83a0;
+    --border:rgba(255,255,255,0.09);
+    --font-display:'Orbitron', sans-serif;
+    --font-mono:'JetBrains Mono', monospace;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:var(--bg);
+    color:var(--text);
+    font-family:var(--font-mono);
+    overflow-x:hidden;
+    position:relative;
+  }
+  ::selection{background:var(--magenta);color:#08070c;}
+
+  body::before{
+    content:"";
+    position:fixed; inset:0;
+    background:repeating-linear-gradient(0deg, rgba(255,255,255,0.025) 0px, rgba(255,255,255,0.025) 1px, transparent 1px, transparent 3px);
+    pointer-events:none;
+    z-index:9999;
+    mix-blend-mode:overlay;
+  }
+  body::after{
+    content:"";
+    position:fixed; inset:0;
+    background:radial-gradient(ellipse at center, transparent 55%, rgba(0,0,0,0.55) 100%);
+    pointer-events:none;
+    z-index:9998;
+  }
+
+  a{color:inherit;text-decoration:none;}
+  .wrap{max-width:1180px;margin:0 auto;padding:0 32px;}
+  @media(max-width:640px){.wrap{padding:0 20px;}}
+
+  h1,h2,h3{font-family:var(--font-display);letter-spacing:0.02em;}
+
+  .eyebrow{
+    font-family:var(--font-mono);
+    font-size:11px;
+    letter-spacing:0.28em;
+    text-transform:uppercase;
+    color:var(--cyan);
+    display:flex;
+    align-items:center;
+    gap:10px;
+  }
+  .eyebrow::before{content:"";width:22px;height:1px;background:var(--cyan);display:inline-block;}
+
+  /* ---------- NAV ---------- */
+  nav{
+    position:sticky; top:0; z-index:500;
+    background:rgba(8,7,12,0.82);
+    backdrop-filter:blur(10px);
+    border-bottom:1px solid var(--border);
+  }
+  .navbar{
+    display:flex; align-items:center; justify-content:space-between;
+    height:64px;
+  }
+  .logo{
+    font-family:var(--font-display);
+    font-weight:900;
+    font-size:18px;
+    letter-spacing:0.05em;
+    color:var(--text);
+    display:flex;align-items:center;gap:8px;
+  }
+  .logo span{color:var(--acid);}
+  .logo .dot{width:7px;height:7px;background:var(--magenta);border-radius:50%;box-shadow:0 0 8px var(--magenta);animation:blink 1.6s infinite;}
+  @keyframes blink{0%,100%{opacity:1;}50%{opacity:0.25;}}
+  .navlinks{display:flex;gap:32px;font-size:12px;letter-spacing:0.08em;text-transform:uppercase;color:var(--text-dim);}
+  .navlinks a{transition:color .2s;}
+  .navlinks a:hover{color:var(--cyan);}
+  .navcta{
+    font-size:11px;letter-spacing:0.1em;text-transform:uppercase;
+    border:1px solid var(--acid); color:var(--acid);
+    padding:9px 16px;
+    transition:all .2s;
+  }
+  .navcta:hover{background:var(--acid);color:#08070c;box-shadow:0 0 20px rgba(212,255,61,0.4);}
+  @media(max-width:800px){.navlinks{display:none;}}
+
+  /* ---------- HERO ---------- */
+  .hero{
+    position:relative;
+    min-height:92vh;
+    display:flex; flex-direction:column; justify-content:center;
+    padding-top:70px; padding-bottom:60px;
+    overflow:hidden;
+  }
+  .grid-bg{
+    position:absolute; inset:0; z-index:0;
+    background-image:
+      linear-gradient(rgba(41,255,224,0.06) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(41,255,224,0.06) 1px, transparent 1px);
+    background-size:42px 42px;
+    -webkit-mask-image:radial-gradient(ellipse 70% 60% at 50% 30%, black 10%, transparent 75%);
+    mask-image:radial-gradient(ellipse 70% 60% at 50% 30%, black 10%, transparent 75%);
+  }
+  .glow-blob{
+    position:absolute; z-index:0; border-radius:50%; filter:blur(90px); opacity:0.35;
+  }
+  .glow1{width:420px;height:420px;background:var(--magenta);top:-120px;left:-100px;}
+  .glow2{width:380px;height:380px;background:var(--cyan);bottom:-140px;right:-80px;}
+
+  .hero-inner{position:relative;z-index:2;display:grid;grid-template-columns:1.15fr 0.85fr;gap:40px;align-items:center;}
+  @media(max-width:900px){.hero-inner{grid-template-columns:1fr;}}
+
+  .ticker-badge{
+    display:inline-flex; align-items:center; gap:8px;
+    border:1px solid var(--border); background:var(--bg-panel);
+    padding:6px 12px; font-size:11px; letter-spacing:0.12em; text-transform:uppercase;
+    color:var(--text-dim); margin-bottom:22px;
+  }
+  .ticker-badge b{color:var(--amber);}
+
+  .hero h1{
+    font-size:clamp(42px, 7vw, 88px);
+    line-height:0.98;
+    font-weight:900;
+    text-transform:uppercase;
+    color:var(--text);
+  }
+  .hero h1 .glitch-word{
+    position:relative; display:inline-block;
+    color:var(--acid);
+    text-shadow:0 0 18px rgba(212,255,61,0.55);
+  }
+  .hero h1 .glitch-word::before,
+  .hero h1 .glitch-word::after{
+    content:attr(data-text);
+    position:absolute; left:0; top:0; width:100%; height:100%;
+    overflow:hidden;
+  }
+  .hero h1 .glitch-word::before{
+    color:var(--magenta); left:2px; animation:glitchA 3.4s infinite linear alternate-reverse; opacity:0.7;
+  }
+  .hero h1 .glitch-word::after{
+    color:var(--cyan); left:-2px; animation:glitchB 2.6s infinite linear alternate-reverse; opacity:0.7;
+  }
+  @keyframes glitchA{0%{clip-path:inset(0 0 85% 0);}20%{clip-path:inset(30% 0 40% 0);}40%{clip-path:inset(60% 0 5% 0);}60%{clip-path:inset(10% 0 70% 0);}80%{clip-path:inset(80% 0 2% 0);}100%{clip-path:inset(45% 0 30% 0);}}
+  @keyframes glitchB{0%{clip-path:inset(70% 0 5% 0);}25%{clip-path:inset(5% 0 80% 0);}50%{clip-path:inset(40% 0 20% 0);}75%{clip-path:inset(15% 0 60% 0);}100%{clip-path:inset(55% 0 10% 0);}}
+
+  .hero p.sub{
+    margin-top:22px; max-width:520px;
+    color:var(--text-dim); font-size:15px; line-height:1.75;
+  }
+  .hero p.sub .hl{color:var(--cyan);}
+
+  .hero-cta{display:flex; gap:14px; margin-top:34px; flex-wrap:wrap;}
+  .btn{
+    font-family:var(--font-mono); font-weight:700; font-size:13px; letter-spacing:0.06em; text-transform:uppercase;
+    padding:15px 26px; cursor:pointer; border:none; display:inline-flex; align-items:center; gap:10px;
+    transition:transform .15s ease, box-shadow .2s ease;
+  }
+  .btn:hover{transform:translateY(-2px);}
+  .btn-primary{background:var(--acid); color:#08070c; box-shadow:0 0 0 rgba(212,255,61,0);}
+  .btn-primary:hover{box-shadow:0 6px 30px rgba(212,255,61,0.35);}
+  .btn-ghost{background:transparent; border:1px solid var(--border); color:var(--text);}
+  .btn-ghost:hover{border-color:var(--cyan); color:var(--cyan);}
+
+  .contract-row{
+    margin-top:26px; display:flex; align-items:center; gap:10px;
+    font-size:12px; color:var(--text-dim); flex-wrap:wrap;
+  }
+  .contract-row code{
+    background:var(--bg-panel); border:1px solid var(--border); padding:8px 12px; color:var(--amber);
+    letter-spacing:0.08em; text-transform:uppercase;
+  }
+  .pulse-dot{
+    width:7px;height:7px;border-radius:50%;background:var(--acid);
+    box-shadow:0 0 10px var(--acid); display:inline-block; animation:blink 1.2s infinite;
+  }
+
+  /* hero ape image */
+  .ape-stage{position:relative; display:flex; justify-content:center; align-items:center;}
+  .ape-ring{
+    position:absolute; width:340px; height:340px; border:1px solid rgba(41,255,224,0.25); border-radius:50%;
+    animation:spin 26s linear infinite;
+  }
+  .ape-ring.r2{width:420px;height:420px;border-color:rgba(255,46,166,0.18);animation-duration:34s;animation-direction:reverse;}
+  @keyframes spin{from{transform:rotate(0deg);}to{transform:rotate(360deg);}}
+  .ape-img{
+    position:relative; z-index:2;
+    width:300px; height:300px; object-fit:contain;
+    filter:drop-shadow(0 0 22px rgba(41,255,224,0.35)) drop-shadow(0 0 40px rgba(255,46,166,0.25));
+    animation:float 5s ease-in-out infinite;
+  }
+  @keyframes float{0%,100%{transform:translateY(0);}50%{transform:translateY(-14px);}}
+  @media(max-width:900px){.ape-img{width:230px;height:230px;}}
+
+  /* ---------- MARQUEE ---------- */
+  .marquee-bar{
+    border-top:1px solid var(--border); border-bottom:1px solid var(--border);
+    background:var(--bg-panel);
+    overflow:hidden; white-space:nowrap; position:relative; z-index:2;
+  }
+  .marquee-track{display:inline-block; padding:12px 0; animation:scroll 26s linear infinite;}
+  .marquee-track span{
+    font-size:12px; letter-spacing:0.14em; text-transform:uppercase; color:var(--text-dim);
+    margin:0 26px; display:inline-flex; align-items:center; gap:10px;
+  }
+  .marquee-track span b{color:var(--acid);}
+  @keyframes scroll{from{transform:translateX(0);}to{transform:translateX(-50%);}}
+
+  /* ---------- SECTION SHARED ---------- */
+  section{padding:110px 0;position:relative;}
+  @media(max-width:640px){section{padding:74px 0;}}
+  .sec-head{max-width:640px; margin-bottom:56px;}
+  .sec-head h2{font-size:clamp(28px,4vw,42px); margin-top:14px; text-transform:uppercase;}
+  .sec-head p{color:var(--text-dim); margin-top:16px; line-height:1.75; font-size:14.5px;}
+
+  /* ---------- MANIFESTO ---------- */
+  .manifesto{background:linear-gradient(180deg, transparent, var(--bg-panel) 15%, var(--bg-panel) 85%, transparent);}
+  .manifesto-grid{display:grid; grid-template-columns:1fr 1fr; gap:60px; align-items:start;}
+  @media(max-width:860px){.manifesto-grid{grid-template-columns:1fr;gap:36px;}}
+  .manifesto-quote{
+    font-family:var(--font-display); font-weight:700;
+    font-size:clamp(24px,3vw,34px); line-height:1.28;
+    color:var(--text);
+    border-left:2px solid var(--magenta); padding-left:24px;
+  }
+  .manifesto-quote em{font-style:normal;color:var(--acid);}
+  .manifesto-body p{color:var(--text-dim); line-height:1.85; font-size:14.5px; margin-bottom:18px;}
+  .manifesto-body strong{color:var(--text);}
+
+  /* ---------- TOKENOMICS ---------- */
+  .hud-grid{display:grid; grid-template-columns:repeat(4,1fr); gap:1px; background:var(--border); border:1px solid var(--border);}
+  @media(max-width:860px){.hud-grid{grid-template-columns:repeat(2,1fr);}}
+  .hud-cell{background:var(--bg); padding:32px 26px;}
+  .hud-cell .label{font-size:11px; letter-spacing:0.16em; text-transform:uppercase; color:var(--text-dim);}
+  .hud-cell .value{font-family:var(--font-display); font-size:26px; margin-top:12px; color:var(--cyan);}
+  .hud-cell:nth-child(2) .value{color:var(--magenta);}
+  .hud-cell:nth-child(3) .value{color:var(--acid);}
+  .hud-cell:nth-child(4) .value{color:var(--amber);}
+  .hud-cell .foot{font-size:11.5px; color:var(--text-dim); margin-top:10px; line-height:1.6;}
+
+  .barbox{margin-top:44px; border:1px solid var(--border); padding:26px 28px; background:var(--bg-panel);}
+  .barrow{display:flex; align-items:center; gap:16px; margin-bottom:16px; font-size:12px;}
+  .barrow:last-child{margin-bottom:0;}
+  .barrow .barlabel{width:190px; color:var(--text-dim); text-transform:uppercase; letter-spacing:0.06em; flex-shrink:0;}
+  .barrow .bartrack{flex:1; height:8px; background:rgba(255,255,255,0.06); position:relative; overflow:hidden;}
+  .barrow .barfill{height:100%; position:absolute; left:0; top:0;}
+  .barrow .barpct{width:46px; text-align:right; color:var(--text);}
+
+  /* ---------- HOW TO BUY ---------- */
+  .steps{display:grid; grid-template-columns:repeat(4,1fr); gap:24px;}
+  @media(max-width:900px){.steps{grid-template-columns:1fr 1fr;}}
+  @media(max-width:560px){.steps{grid-template-columns:1fr;}}
+  .step{border:1px solid var(--border); padding:26px 22px; position:relative; background:var(--bg-panel-2); transition:border-color .2s;}
+  .step:hover{border-color:var(--cyan);}
+  .step .num{font-family:var(--font-display); font-size:13px; color:var(--cyan); letter-spacing:0.1em;}
+  .step h3{font-size:15px; margin-top:14px; text-transform:uppercase; letter-spacing:0.03em;}
+  .step p{font-size:13px; color:var(--text-dim); margin-top:10px; line-height:1.7;}
+  .step .chain-tag{
+    display:inline-block; margin-top:14px; font-size:10px; letter-spacing:0.1em; text-transform:uppercase;
+    color:var(--amber); border:1px solid rgba(255,138,61,0.35); padding:4px 8px;
+  }
+
+  /* ---------- ROADMAP / EVOLUTION ---------- */
+  .timeline{position:relative; margin-top:20px;}
+  .timeline::before{
+    content:""; position:absolute; left:19px; top:6px; bottom:6px; width:1px;
+    background:linear-gradient(180deg, var(--cyan), var(--magenta), var(--acid));
+  }
+  .tl-item{position:relative; padding-left:60px; margin-bottom:46px;}
+  .tl-item:last-child{margin-bottom:0;}
+  .tl-dot{
+    position:absolute; left:11px; top:2px; width:17px; height:17px; border-radius:50%;
+    background:var(--bg); border:2px solid var(--cyan); box-shadow:0 0 14px rgba(41,255,224,0.5);
+  }
+  .tl-item:nth-child(2) .tl-dot{border-color:var(--magenta); box-shadow:0 0 14px rgba(255,46,166,0.5);}
+  .tl-item:nth-child(3) .tl-dot{border-color:var(--acid); box-shadow:0 0 14px rgba(212,255,61,0.5);}
+  .tl-item:nth-child(4) .tl-dot{border-color:var(--amber); box-shadow:0 0 14px rgba(255,138,61,0.5);}
+  .tl-item .gen{font-family:var(--font-display); font-size:12px; letter-spacing:0.14em; color:var(--text-dim); text-transform:uppercase;}
+  .tl-item h3{font-size:19px; margin-top:8px; text-transform:uppercase;}
+  .tl-item p{font-size:13.5px; color:var(--text-dim); margin-top:10px; max-width:560px; line-height:1.75;}
+
+  /* ---------- COMMUNITY ---------- */
+  .community{background:var(--bg-panel); border-top:1px solid var(--border); border-bottom:1px solid var(--border);}
+  .comm-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:1px; background:var(--border); border:1px solid var(--border); margin-top:20px;}
+  @media(max-width:760px){.comm-grid{grid-template-columns:1fr;}}
+  .comm-cell{background:var(--bg-panel); padding:30px 26px; display:flex; align-items:center; justify-content:space-between; transition:background .2s;}
+  .comm-cell:hover{background:var(--bg-panel-2);}
+  .comm-cell .name{font-family:var(--font-display); font-size:14px; letter-spacing:0.04em; text-transform:uppercase;}
+  .comm-cell .sub{font-size:11.5px; color:var(--text-dim); margin-top:4px;}
+  .comm-cell .arrow{color:var(--acid); font-size:18px;}
+
+  /* ---------- FOOTER ---------- */
+  footer{padding:50px 0 36px;}
+  .foot-grid{display:flex; justify-content:space-between; align-items:flex-start; flex-wrap:wrap; gap:24px; border-top:1px solid var(--border); padding-top:34px;}
+  .foot-brand{font-family:var(--font-display); font-weight:900; letter-spacing:0.04em;}
+  .foot-brand span{color:var(--acid);}
+  .foot-note{max-width:520px; font-size:11.5px; color:var(--text-dim); line-height:1.8; margin-top:12px;}
+  .foot-links{display:flex; gap:20px; font-size:11.5px; text-transform:uppercase; letter-spacing:0.08em; color:var(--text-dim);}
+  .foot-links a:hover{color:var(--cyan);}
+
+  ::-webkit-scrollbar{width:10px;}
+  ::-webkit-scrollbar-track{background:var(--bg);}
+  ::-webkit-scrollbar-thumb{background:var(--bg-panel-2); border:1px solid var(--border);}
+
+  @media(prefers-reduced-motion: reduce){
+    *{animation-duration:0.001ms !important; animation-iteration-count:1 !important; transition-duration:0.001ms !important;}
+  }
+
+  a:focus-visible, button:focus-visible{outline:2px solid var(--cyan); outline-offset:3px;}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="wrap navbar">
+    <div class="logo"><span class="dot"></span>$CAPE<span>_</span></div>
+    <div class="navlinks">
+      <a href="#manifesto">Manifesto</a>
+      <a href="#tokenomics">Tokenomics</a>
+      <a href="#buy">Ascend</a>
+      <a href="#roadmap">Evolution</a>
+      <a href="#community">Community</a>
+    </div>
+    <a href="#buy" class="navcta">Buy $CAPE</a>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="grid-bg"></div>
+  <div class="glow-blob glow1"></div>
+  <div class="glow-blob glow2"></div>
+
+  <div class="wrap hero-inner">
+    <div>
+      <div class="ticker-badge">Live on <b>Robinhood Chain</b> · EVM Compatible</div>
+      <h1>RISE OF<br>THE <span class="glitch-word" data-text="APES">APES</span></h1>
+      <p class="sub">This isn't just another pump. It's <span class="hl">on-chain evolution</span> — a troop of cyber apes rising out of the network, climbing from the Ethereum swamp into the fast, cheap canopy of Robinhood Chain. Every block is one swing higher.</p>
+
+      <div class="hero-cta">
+        <a href="#buy" class="btn btn-primary">Buy $CAPE Now →</a>
+        <a href="#manifesto" class="btn btn-ghost">Read the Manifesto</a>
+      </div>
+
+      <div class="contract-row">
+        <span class="pulse-dot"></span>
+        <span>CA:</span>
+        <code>COMING SOON</code>
+        <span>· announced at TGE — beware of fakes</span>
+      </div>
+    </div>
+
+    <div class="ape-stage">
+      <div class="ape-ring"></div>
+      <div class="ape-ring r2"></div>
+      <img src="kera.png" alt="Ape Rise Mascot" class="ape-img" />
+    </div>
+  </div>
+</header>
+
+<div class="marquee-bar">
+  <div class="marquee-track">
+    <span><b>$CAPE</b> RISE OF THE APES</span>
+    <span>ROBINHOOD CHAIN · EVM COMPATIBLE</span>
+    <span>NO PRESALE · NO VC · 100% COMMUNITY</span>
+    <span><b>$CAPE</b> LP LOCKED FOREVER</span>
+    <span>SWAMP TO CANOPY</span>
+    <span>APES RISE TOGETHER</span>
+    <span>CA COMING SOON</span>
+    <span><b>$CAPE</b> RISE OF THE APES</span>
+    <span>ROBINHOOD CHAIN · EVM COMPATIBLE</span>
+    <span>NO PRESALE · NO VC · 100% COMMUNITY</span>
+    <span><b>$CAPE</b> LP LOCKED FOREVER</span>
+    <span>SWAMP TO CANOPY</span>
+    <span>APES RISE TOGETHER</span>
+    <span>CA COMING SOON</span>
+  </div>
+</div>
+
+<section id="manifesto" class="manifesto">
+  <div class="wrap manifesto-grid">
+    <div class="manifesto-quote">
+      Apes don't wait for permission to <em>level up</em>. Apes climb, build muscle, and take the canopy — one block at a time.
+    </div>
+    <div class="manifesto-body">
+      <p><strong>$CAPE was born from one simple observation:</strong> the old networks are congested, gas is expensive, and the old troops move slow. Robinhood Chain opens a new canopy — fast, cheap, and full of room for a troop to grow without getting stuck in mainnet traffic.</p>
+      <p>We're not selling a 10-year roadmap promise. We're selling one thing: troop momentum. Every holder is one ape joining the climb. The more that rise, the higher the canopy the troop can reach together.</p>
+      <p>This is a social experiment wrapped in a token — built 100% by the community, no hidden presale, no quiet VC allocation. New chain, new troop, new rules.</p>
+    </div>
+  </div>
+</section>
+
+<section id="tokenomics">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="eyebrow">Tokenomics</div>
+      <h2>Troop Structure</h2>
+      <p>Token structure is kept simple and transparent — so the troop can focus on climbing, not decoding complicated schemes.</p>
+    </div>
+
+    <div class="hud-grid">
+      <div class="hud-cell">
+        <div class="label">Total Supply</div>
+        <div class="value">1,000,000,000</div>
+        <div class="foot">Fixed supply. No additional minting after launch.</div>
+      </div>
+      <div class="hud-cell">
+        <div class="label">Network</div>
+        <div class="value">Robinhood Chain</div>
+        <div class="foot">EVM-compatible L2, low gas, fast finality.</div>
+      </div>
+      <div class="hud-cell">
+        <div class="label">Trading Tax</div>
+        <div class="value">0%</div>
+        <div class="foot">Buy &amp; sell with no hidden cuts.</div>
+      </div>
+      <div class="hud-cell">
+        <div class="label">LP Status</div>
+        <div class="value">Locked</div>
+        <div class="foot">Liquidity fully locked at TGE, confirmed on-chain.</div>
+      </div>
+    </div>
+
+    <div class="barbox">
+      <div class="barrow">
+        <div class="barlabel">Liquidity Pool</div>
+        <div class="bartrack"><div class="barfill" style="width:50%; background:var(--cyan);"></div></div>
+        <div class="barpct">50%</div>
+      </div>
+      <div class="barrow">
+        <div class="barlabel">Troop Airdrop</div>
+        <div class="bartrack"><div class="barfill" style="width:25%; background:var(--magenta);"></div></div>
+        <div class="barpct">25%</div>
+      </div>
+      <div class="barrow">
+        <div class="barlabel">Ecosystem &amp; CEX</div>
+        <div class="bartrack"><div class="barfill" style="width:15%; background:var(--acid);"></div></div>
+        <div class="barpct">15%</div>
+      </div>
+      <div class="barrow">
+        <div class="barlabel">Team (12mo Vesting)</div>
+        <div class="bartrack"><div class="barfill" style="width:10%; background:var(--amber);"></div></div>
+        <div class="barpct">10%</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="buy">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="eyebrow">How To Join The Climb</div>
+      <h2>4 Steps To The Canopy</h2>
+      <p>This order matters — follow it in sequence so your wallet is ready to swap on Robinhood Chain without a hitch.</p>
+    </div>
+
+    <div class="steps">
+      <div class="step">
+        <div class="num">01 / GET GAS</div>
+        <h3>Fund Your Wallet</h3>
+        <p>Load your EVM wallet (MetaMask / Rabby) with $RBH to cover transaction fees.</p>
+        <span class="chain-tag">Robinhood Chain</span>
+      </div>
+      <div class="step">
+        <div class="num">02 / BRIDGE</div>
+        <h3>Enter Robinhood Chain</h3>
+        <p>Bridge your assets from mainnet to Robinhood Chain via the official bridge for minimal gas.</p>
+        <span class="chain-tag">L2 EVM</span>
+      </div>
+      <div class="step">
+        <div class="num">03 / SWAP</div>
+        <h3>Trade Into $CAPE</h3>
+        <p>Open your preferred DEX on Robinhood Chain, paste the official contract address, and swap $RBH for $CAPE.</p>
+        <span class="chain-tag">DEX</span>
+      </div>
+      <div class="step">
+        <div class="num">04 / HOLD</div>
+        <h3>Join The Climb</h3>
+        <p>Keep it in your own wallet, join the community, and rise with the troop toward the canopy.</p>
+        <span class="chain-tag">Rise</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="roadmap">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="eyebrow">Evolution Map</div>
+      <h2>Four Phases Of The Rise</h2>
+      <p>Not price targets — these are evolution stages, from seed to full canopy control on Robinhood Chain.</p>
+    </div>
+
+    <div class="timeline">
+      <div class="tl-item">
+        <div class="tl-dot"></div>
+        <div class="gen">Gen 0 — Boot</div>
+        <h3>Hatch On Robinhood Chain</h3>
+        <p>Contract deployed, liquidity locked, trading opens. The first troop forms as it moves from the mainnet swamp onto the L2.</p>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot"></div>
+        <div class="gen">Gen 1 — Awaken</div>
+        <h3>The Troop Connects</h3>
+        <p>Community channels open in full, meme and early troop airdrop campaigns launch, syncing with on-chain trackers.</p>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot"></div>
+        <div class="gen">Gen 2 — Evolve</div>
+        <h3>Ecosystem Expansion</h3>
+        <p>Cross-project collabs across Robinhood Chain, exploring troop utility (staking / NFT companions), public audit.</p>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot"></div>
+        <div class="gen">Gen 3 — Ascend</div>
+        <h3>Canopy Control</h3>
+        <p>Push for wider exchange listings, troop self-governance via DAO, $CAPE becomes a cultural fixture of Robinhood Chain.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="community" class="community">
+  <div class="wrap">
+    <div class="sec-head" style="margin-bottom:0;">
+      <div class="eyebrow">Join The Troop</div>
+      <h2>Community Channels</h2>
+    </div>
+    <div class="comm-grid">
+      <a class="comm-cell" href="#">
+        <div><div class="name">X / Twitter</div><div class="sub">Daily troop updates &amp; memes</div></div>
+        <div class="arrow">↗</div>
+      </a>
+      <a class="comm-cell" href="#">
+        <div><div class="name">Telegram</div><div class="sub">Live chat with the troop</div></div>
+        <div class="arrow">↗</div>
+      </a>
+      <a class="comm-cell" href="#">
+        <div><div class="name">Discord</div><div class="sub">Discussion &amp; core troop alpha</div></div>
+        <div class="arrow">↗</div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="foot-grid">
+      <div>
+        <div class="foot-brand">$CAPE<span>_</span></div>
+        <p class="foot-note">$CAPE is a community meme token on Robinhood Chain with no intrinsic value or expectation of financial return. Not financial advice (NFA). DYOR before buying any crypto asset. Always verify the official contract address once announced — never trust a CA shared in DMs.</p>
+      </div>
+      <div class="foot-links">
+        <a href="#manifesto">Manifesto</a>
+        <a href="#tokenomics">Tokenomics</a>
+        <a href="#roadmap">Evolution</a>
+        <a href="#community">Community</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
